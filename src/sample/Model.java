@@ -17,5 +17,4 @@ public class Model {
                 return 0;
         }
     }
-
 }
