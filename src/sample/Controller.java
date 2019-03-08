@@ -8,16 +8,17 @@ import javafx.scene.control.Label;
 public class Controller {
 
     @FXML
-    private Label result;
+    private Label result; // label for result output
 
     private boolean isFirstInput = true;
     private int numberOne = 0;
     private int numberTwo = 0;
+    private int output;
     private String operator = "";
 
     @FXML
     public void processNumber(ActionEvent event) {
-        if (isFirstInput) {
+        if (isFirstInput) { // first time input
             result.setText("");
             isFirstInput = false;
         }
@@ -27,24 +28,23 @@ public class Controller {
 
     @FXML
     public void processOperator(ActionEvent event) {
-        String valueOfOperator = ((Button)event.getSource()).getText();
-        if (!valueOfOperator.equals("=")) {
+        String selectedOperator = ((Button)event.getSource()).getText();
+        if (!selectedOperator.equals("=")) { // if the operator is '+', '-', '/' or 'x'
             if (!operator.isEmpty()) {
                 return;
             } else {
-                System.out.println("ddddd");
-                operator = valueOfOperator;
-                numberOne = Integer.parseInt(result.getText());
-                result.setText("");
+                numberOne = Integer.parseInt(result.getText().split("\\D", 0)[0]);
+                System.out.println(numberOne);
+                operator = selectedOperator;
+                result.setText(result.getText() + operator);
             }
-        } else {
+        } else { // if the operator is '='
             if (operator.isEmpty()) {
                 return;
-            } else { // do the final task, calculation
-                numberTwo = Integer.parseInt(result.getText());
-                System.out.println(numberTwo + " number two");
-                int output = Model.calculate(numberOne, numberTwo, operator);
-                result.setText(Integer.toString(output));
+            } else {
+                numberTwo = Integer.parseInt(result.getText().split("\\D", 0)[1]);
+                output = Model.calculate(numberOne, numberTwo, operator);
+                result.setText(result.getText() + " = " + output);
 
                 isFirstInput = true;
                 operator = "";
